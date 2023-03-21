@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8">
+	<title>Chatbot Example</title>
+</head>
+<body>
+	<h1>Chatbot Example</h1>
+	<div id="chatbox">
+		<p>Chatbot: Hello! How can I help you today?</p>
+	</div>
+	<form id="message-form" action="#">
+		<input type="text" name="msg" id="msg" placeholder="Type your message here...">
+		<input type="submit" value="Send">
+	</form>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$(function() {
+			$('#message-form').on('submit', function(e) {
+				e.preventDefault();
+				var user_text = $('#msg').val();
+				$('#chatbox').append('<p>You: ' + user_text + '</p>');
+				$.get('/get', {msg: user_text}).done(function(data) {
+					$('#chatbox').append('<p>Chatbot: ' + data + '</p>');
+				});
+				$('#msg').val('');
+			});
+		});
+	</script>
+</body>
+</html>
+
+<!--
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Chatbot Demo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        #chatbox {
+            width: 80%;
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        }
+        #messages {
+            height: 400px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #0069d9;
+        }
+    </style>
+</head>
+<body>
+    <div id="chatbox">
+        <div id="messages"></div>
+        <form id="message-form">
+            <input type="text" id="message-input" placeholder="Type your message...">
+            <input type="submit" value="Send">
+        </form>
+    </div>
+    <script>
+        const messageForm = document.getElementById('message-form');
+        const messageInput = document.getElementById('message-input');
+        const messagesDiv = document.getElementById('messages');
+
+        messageForm.addEventListener('submit', sendMessage);
+
+        function sendMessage(event) {
+            event.preventDefault();
+            const message = messageInput.value;
+            const username = 'user1';
+            addMessage(username, message);
+            messageInput.value = '';
+            fetch('/chatbot', {
+                method: 'POST',
+                body: new URLSearchParams({
+                    message: message,
+                    username: username
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                addMessage('chatbot', data.message);
+            });
+        }
+
+        function addMessage(username, message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.innerHTML = `<strong>${username}:</strong> ${message}`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+    </script>
+</body>
+</html> -->

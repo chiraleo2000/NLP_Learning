@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8">
+	<title>Prompt Generator</title>
+</head>
+<body>
+	<h1>Prompt Generator</h1>
+	<form>
+		<label for="tone">Select tone:</label>
+		<select name="tone" id="tone">
+			<option value="ทางการ">แบบทางการ</option>
+			<option value="ไม่ทางการ">แบบไม่ทางการ</option>
+			<option value="เคร่งเครียด">แบบเคร่งเครียด</option>
+            <option value="ผู้เชี่ยวชาญ">แบบผู้เชี่ยวชาญ</option>
+			<option value="กังวล">แบบกังวล</option>
+            <option value="ปลุกกำลังใจ">แบบปลุกกำลังใจ</option>
+            <option value="มั่นใจ">แบบมั่นใจ</option>
+			<option value="เป็นมิตร">แบบเป็นมิตร</option>
+		</select>
+
+		<br>
+
+		<label for="style">Select style:</label>
+		<select name="style" id="style" onchange="generatePrompt()">
+			<option value="เล่าเรื่อง">เล่าเรื่อง</option>
+			<option value="คำขอร้อง">คำขอร้อง</option>
+			<option value="อธิบายความ">อธิบายความ</option>
+			<option value="ลำดับขั้นตอน">ลำดับขั้นตอน</option>
+		</select>
+
+		<br>
+
+		<label for="length">Enter length (in words):</label>
+		<input type="number" name="length" id="length" oninput="generatePrompt()">
+
+		<br>
+
+		<label for="topic">Enter topic:</label>
+		<input type="text" name="topic" id="topic" oninput="generatePrompt()">
+        <br>
+
+		<label for="task">Enter task:</label>
+        <br><br>
+        <textarea id="task" rows="10" cols="50" inputmode="full-width-latin"></textarea>
+        <button type="button" onclick="document.getElementById('task').value = ''">Clear</button>
+
+
+        <br>
+
+		<label for="prompt">Prompt:</label>
+        <br><br>
+		<textarea id="prompt" rows="10" cols="50" readonly></textarea>
+
+		<br><br>
+
+		<button type="button" onclick="copyPrompt()">Copy Prompt</button>
+
+	</form>
+
+	<script>
+		function generatePrompt() {
+			var tone = document.getElementById("tone").value;
+			var style = document.getElementById("style").value;
+			var length = document.getElementById("length").value;
+			var topic = document.getElementById("topic").value;
+            var task = document.getElementById("task").value;
+
+			// Code to generate prompt based on user input
+			// You can modify this code to generate prompts that match your needs
+			var prompt = "ช่วยตอบคำถามดังกล่าวด้วยภาษาไทยตามตั้งค่าดังนี้\nส่วนตั้งค่า:\n\tใช้คำศัพท์ยาวไม่เกิน: " + length + " คำ\n\tรูปแบบ: " + style + "\n\tหัวข้อชื่อ: " + topic + "\n\tสำเนียงแบบ: " + tone + "\n\nคำถาม: " + task + "\nตำตอบ: ";
+			document.getElementById("prompt").value = prompt;
+		}
+
+		function copyPrompt() {
+			var prompt = document.getElementById("prompt");
+			prompt.select();
+			prompt.setSelectionRange(0, 99999); /* For mobile devices */
+			document.execCommand("copy");
+		}
+	</script>
+
+</body>
+</html>

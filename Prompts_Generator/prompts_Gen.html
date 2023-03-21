@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8">
+	<title>Prompt Generator</title>
+</head>
+<body>
+	<h1>Prompt Generator</h1>
+	<form>
+		<label for="tone">Select tone:</label>
+		<select name="tone" id="tone">
+			<option value="formal">Formal</option>
+			<option value="informal">Informal</option>
+			<option value="serious">Serious</option>
+			<option value="humorous">Humorous</option>
+            <option value="professional">Professional</option>
+			<option value="worried">Worried</option>
+            <option value="encouraging">Encouraging</option>
+            <option value="confident">Confident</option>
+			<option value="friendly">Friendly</option>
+		</select>
+
+		<br>
+
+		<label for="audience">Select audience:</label>
+		<select name="audience" id="audience">
+			<option value="students">Students</option>
+			<option value="teachers">Teachers</option>
+			<option value="general">General</option>
+            <option value="police">Police</option>
+			<option value="firefighter">Firefighter</option>
+			<option value="paramedic">Paramedic</option>
+			<option value="emergency response">ER</option>
+		</select>
+
+		<br>
+
+		<label for="style">Select style:</label>
+		<select name="style" id="style" onchange="generatePrompt()">
+			<option value="narrative">Narrative</option>
+			<option value="persuasive">Persuasive</option>
+			<option value="descriptive">Descriptive</option>
+			<option value="expository">Expository</option>
+		</select>
+
+		<br>
+
+		<label for="length">Enter length (in words):</label>
+		<input type="number" name="length" id="length" oninput="generatePrompt()">
+
+		<br>
+
+		<label for="topic">Enter topic:</label>
+		<input type="text" name="topic" id="topic" oninput="generatePrompt()">
+        <br>
+
+		<label for="task">Enter task:</label>
+        <br><br>
+        <textarea id="task" rows="10" cols="50" inputmode="full-width-latin"></textarea>
+
+        <br>
+
+		<label for="prompt">Prompt:</label>
+        <br><br>
+		<textarea id="prompt" rows="10" cols="50" readonly></textarea>
+
+		<br><br>
+
+		<button type="button" onclick="copyPrompt()">Copy Prompt</button>
+
+	</form>
+
+	<script>
+		function generatePrompt() {
+			var tone = document.getElementById("tone").value;
+			var audience = document.getElementById("audience").value;
+			var style = document.getElementById("style").value;
+			var length = document.getElementById("length").value;
+			var topic = document.getElementById("topic").value;
+            var task = document.getElementById("task").value;
+
+			// Code to generate prompt based on user input
+			// You can modify this code to generate prompts that match your needs
+			var prompt = "Write within " + length + " words with " + style + " style for " + audience + " on the topic of " + topic + " in a " + tone + " tone." + " User request task: " + task;
+			document.getElementById("prompt").value = prompt;
+		}
+
+		function copyPrompt() {
+			var prompt = document.getElementById("prompt");
+			prompt.select();
+			prompt.setSelectionRange(0, 99999); /* For mobile devices */
+			document.execCommand("copy");
+			alert("Prompt copied!");
+		}
+	</script>
+
+</body>
+</html>

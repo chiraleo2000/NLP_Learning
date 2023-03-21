@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Chatbot</title>
+  </head>
+  <body>
+    <div id="chatbox"></div>
+    <div>
+      <input type="text" id="user_input">
+      <button onclick="send_message()">Send</button>
+    </div>
+  </body>
+  <script>
+    function send_message() {
+      var user_message = document.getElementById('user_input').value;
+      document.getElementById('user_input').value = '';
+
+      fetch('http://localhost:5000/chatbot', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({'message': user_message})
+      })
+      .then(response => response.json())
+      .then(data => {
+        var chatbox = document.getElementById('chatbox');
+        chatbox.innerHTML += '<p>User: ' + user_message + '</p>';
+        chatbox.innerHTML += '<p>Chatbot: ' + data.message + '</p>';
+      });
+    }
+  </script>
+</html>

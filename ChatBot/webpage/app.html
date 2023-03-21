@@ -1,0 +1,68 @@
+<!DOCTYPE>
+<html>
+<head>
+	<title>Chatbot with ChatGPT API</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<h1>Chatbot with ChatGPT API</h1>
+	<div id="chatbox"></div>
+	<input type="text" id="userInput" placeholder="Type your message here...">
+	<button type="button" onclick="sendMsg()">Send</button>
+
+	<script>
+		// Connect to the ChatGPT API
+		const chatbotAPI = "https://api.openai.com/v1/engine/completions";
+		const authToken = "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";
+
+		// Function to send user's message to the ChatGPT API and get response
+		async function getResponse(msg) {
+			const body = {
+                "model" : "text-davinci-003",
+				"prompt": msg,
+				"temperature": 0.7,
+				"max_tokens": 60,
+				"top_p": 1,
+				"frequency_penalty": 0,
+				"presence_penalty": 0
+			};
+
+			const response = await fetch(chatbotAPI, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					"Authorization": authToken
+				},
+				body: JSON.stringify(body)
+			});
+
+			const data = await response.json();
+			return data.choices[0].text.trim();
+		}
+
+		// Function to add user's message and chatbot's response to the chatbox
+		function addMessageToChatbox(userMsg, chatbotMsg) {
+			const chatbox = document.getElementById("chatbox");
+			const userMsgNode = document.createElement("p");
+			userMsgNode.innerHTML = "<strong>Question:</strong> " + userMsg;
+			const chatbotMsgNode = document.createElement("p");
+			chatbotMsgNode.innerHTML = "<strong>Ans:</strong> " + chatbotMsg;
+			chatbox.appendChild(userMsgNode);
+			chatbox.appendChild(chatbotMsgNode);
+		}
+
+		// Function to send user's message and get chatbot's response
+		async function sendMsg() {
+			const userInput = document.getElementById("userInput");
+			const userMsg = userInput.value.trim();
+			userInput.value = "";
+			if (userMsg === "") {
+				return;
+			}
+			const chatbotMsg = await getResponse(userMsg);
+			addMessageToChatbox(userMsg, chatbotMsg);
+		}
+	</script>
+</body>
+</html>
